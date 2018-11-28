@@ -3,9 +3,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const CleanWebpackPlugin = require("clean-webpack-plugin")
 const webpack = require('webpack')
 
-function resolve (dir) {
-  return path.join(__dirname, '..', dir)
-}
 function assetsPath (_path) {
   var assetsSubDirectory = process.env.NODE_ENV === 'production'
     ? 'static'
@@ -20,11 +17,12 @@ module.exports = {
   output: {
     filename: "[name].[hash].js",
     path: path.resolve("./dist"),
+    publicPath: '/'
   },
   resolve: {
-    extensions: ['.js', '.json'],
+    extensions: ['.js', '.json', 'css'],
     alias: {
-      '@': resolve('src')
+      "@": path.resolve(__dirname, "..", "src"),
     }
   },
   module: {
@@ -32,12 +30,11 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test')]
       },
       {
         test: /\.s(a|c)ss$/,
         use: [{
-          loader: "style-loader"
+          loader: "style-loader",
         },{
           loader: "css-loader"
         },{
