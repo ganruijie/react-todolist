@@ -9,6 +9,9 @@ function assetsPath (_path) {
     : 'static'
   return path.posix.join(assetsSubDirectory, _path)
 }
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
 
 module.exports = {
   entry: {
@@ -22,7 +25,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.json', 'css'],
     alias: {
-      "@": path.resolve(__dirname, "..", "src"),
+      '@': resolve('src')
     }
   },
   module: {

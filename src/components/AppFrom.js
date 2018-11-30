@@ -1,6 +1,5 @@
 import React,{ Component } from "react"
-import uuid from "uuid"
-
+import { generateId } from "../script/methods.js";
 var style = {
   'title': {
     width: 200,
@@ -10,16 +9,19 @@ var style = {
   }
 }
 class AppFrom extends Component {
-  handleSubmit (event) {
+  handleAdd(event) {
     event.preventDefault();
-    let text = this.refs.text.value;
-    if(!text.trim()) {alert('111111');return null}
-    let id = uuid();
-    this.props.AddToDoItem({id: id, text: text, complete: false});
+    let value = this.refs.text.value;
+    if(!value) {alert("...eeeee...");return null}
+    this.props.addData({id: generateId(), text: value, complete: false}).then(() => {
+      this.refs.text.value = "";
+    }).catch(() => {
+      console.log("err !!!")
+    });
   }
   render () {
     return (
-      <form className="ui reply form" onSubmit={this.handleSubmit.bind(this)}>
+      <form className="ui reply form" onSubmit={this.handleAdd.bind(this)}>
         <div className="field" style={style}>
           <input type="text" placeholder="TODO" ref="text"/>
         </div>
